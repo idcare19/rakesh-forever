@@ -10,9 +10,16 @@ const path = require('path');
 const productsPath = path.join(__dirname, '..', 'public', 'products.json');
 const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
 
-global.fetch = jest.fn(() =>
+const fetchMock = jest.fn(() =>
 	Promise.resolve({
 		ok: true,
 		json: () => Promise.resolve(products),
 	})
 );
+
+global.fetch = fetchMock;
+globalThis.fetch = fetchMock;
+
+if (typeof window !== 'undefined') {
+	window.fetch = fetchMock;
+}

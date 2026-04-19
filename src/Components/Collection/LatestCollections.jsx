@@ -8,7 +8,13 @@ export default function LatestCollection() {
             return;
         }
 
-        fetch("/products.json")
+        const request = fetch("/products.json");
+
+        if (!request || typeof request.then !== "function") {
+            return;
+        }
+
+        request
         .then(res=>res.json())
         .then(pro => setArr(pro))
     }, [])
