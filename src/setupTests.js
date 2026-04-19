@@ -1,0 +1,18 @@
+// jest-dom adds custom jest matchers for asserting on DOM nodes.
+// allows you to do things like:
+// expect(element).toHaveTextContent(/react/i)
+// learn more: https://github.com/testing-library/jest-dom
+import '@testing-library/jest-dom';
+
+const fs = require('fs');
+const path = require('path');
+
+const productsPath = path.join(__dirname, '..', 'public', 'products.json');
+const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+
+global.fetch = jest.fn(() =>
+	Promise.resolve({
+		ok: true,
+		json: () => Promise.resolve(products),
+	})
+);
